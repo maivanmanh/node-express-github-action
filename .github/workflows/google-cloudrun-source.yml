@@ -44,36 +44,35 @@
 #   Cloud Run builds from source        - https://cloud.google.com/run/docs/deploying-source-code
 #   Principle of least privilege        - https://cloud.google.com/blog/products/identity-security/dont-get-pwned-practicing-the-principle-of-least-privilege
 
-name: Deploy to Cloud Run from Source
+name: Deploy to Cloud Run
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 env:
-  PROJECT_ID: web-503073-server 
-  SERVICE: node-express-cicd 
+  PROJECT_ID: web-503073-server
+  SERVICE: node-express-cicd
   REGION: us-central1
 
 jobs:
   deploy:
     # Add 'id-token' with the intended permissions for workload identity federation
     permissions:
-      contents: 'read'
-      id-token: 'write'
+      contents: "read"
+      id-token: "write"
 
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-   
       # NOTE: Alternative option - authentication via credentials json
       - name: Google Auth
         id: auth
-        uses: 'google-github-actions/auth@v0'
+        uses: "google-github-actions/auth@v0"
         with:
-          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+          credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
 
       - name: Deploy to Cloud Run
         id: deploy
